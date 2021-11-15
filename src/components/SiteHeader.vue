@@ -1,6 +1,6 @@
 <template>
-  <header>
-    
+  <header class="px-3 py-2">
+    <img src="../assets/spotify-logo.svg" alt="Logo Spotify" height="45">
   </header>
 </template>
 
@@ -14,5 +14,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+header {
+  background-color: #2e3a46;
+}
 </style>
