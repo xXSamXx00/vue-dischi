@@ -1,6 +1,6 @@
 <template>
     <div class="cards_music">
-        <SelectElement :select="searchValue" @filter_music="searchMusic"/>
+        <SelectElement :selectValue="searchValue" @filter_music="searchMusic"/>
         <div class="row gx-5 my-5 justify-content-center" v-if="!loading">
             <div class="col-md-2 text-center card_music my-3" v-for="music in filterMusics" :key="music.title">
                 <div class="content p-4">
