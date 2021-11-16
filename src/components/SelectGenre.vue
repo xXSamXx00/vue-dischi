@@ -1,10 +1,8 @@
 <template>
-    <div class="select text-center">
-        <select name="genre" id="genre" @change="$emit('filter_music', selectValue)" v-model="selectValue">
-            <option value="All">Seleziona Genere</option>
-            <option v-for="genre in genres" :key="genre.author" :value="genre">{{ genre }}</option>
-        </select>
-    </div>
+    <select name="genre" id="genre" @change="$emit('filter_gen', selectGen)" v-model="selectGen" class="me-5">
+        <option value="">Seleziona Genere</option>
+        <option v-for="genre in genres" :key="genre.genre" :value="genre">{{ genre }}</option>
+    </select>
 </template>
 
 <script>
@@ -14,7 +12,7 @@ export default {
     data() {
         return {
             genres: [],
-            selectValue: "All"
+            selectGen: ""
         }
     },
     mounted() {
@@ -28,14 +26,13 @@ export default {
                 });
             }
         );
+    },
+    methods: {
+
     }
 }
 </script>
 
 <style lang="scss">
-select {
-    width: 10%;
-    border-radius: 6px;
-    background-color: lightgray;
-}
+
 </style>

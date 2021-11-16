@@ -1,6 +1,9 @@
 <template>
     <div class="cards_music">
-        <SelectElement :selectValue="searchValue" @filter_music="searchMusic"/>
+        <div class="select text-center d-flex justify-content-center">
+            <SelectGenre :selectGen="searchValue" @filter_gen="searchMusic"/>
+            <SelectAuthor :selectAuthor="selectAuthor" @filter_author="searchAuthor"/>
+        </div>
         <div class="row gx-5 my-5 justify-content-center" v-if="!loading">
             <div class="col-md-2 text-center card_music my-3" v-for="music in filterMusics" :key="music.title">
                 <div class="content p-4">
@@ -17,19 +20,22 @@
 </template>
 
 <script>
-import SelectElement from './SelectElement.vue'
+import SelectGenre from './SelectGenre.vue'
+import SelectAuthor from './SelectAuthor.vue'
 import axios from 'axios'
 
 export default {
     components: {
-        SelectElement
+        SelectGenre,
+        SelectAuthor
     },
     data() {
         return {
             musics: [],
             loading: true,
             API_URL: "https://flynn.boolean.careers/exercises/api/array/music",
-            searchValue: ""
+            searchValue: "",
+            selectAuthor: ""
         }
     },
     mounted() {
@@ -40,6 +46,7 @@ export default {
             axios
                 .get(this.API_URL)
                 .then(r => {
+                    console.log(r);
                     this.musics = r.data.response
                     this.loading = false
             }).catch(e => {
@@ -48,15 +55,21 @@ export default {
         },
         searchMusic(value) {
             this.searchValue = value
+        },
+        searchAuthor(author) {
+            this.selectAuthor = author
         }
     },
     computed: {
         filterMusics() {
-            if (this.searchValue === "All") {
-                return this.musics
+            if (this.searchValue === "" && this.selectAuthor === "") {
+                return this.musics;
+            } else {
+                let filterMusic = this.musics.filter((music) => {
+                    return (music.genre.includes(this.searchValue) && music.author.includes(this.selectAuthor));
+                })
+                return filterMusic
             }
-            const filterMusic = this.musics.filter(music => music.genre.includes(this.searchValue))
-            return filterMusic
         }
     }
 }
@@ -82,5 +95,10 @@ export default {
 }
 .loading {
     color: white;
+}
+select {
+    width: 10%;
+    border-radius: 6px;
+    background-color: lightgray;
 }
 </style>
