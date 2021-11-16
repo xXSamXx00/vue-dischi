@@ -1,8 +1,8 @@
 <template>
     <div class="cards_music">
-        <SelectElement />
+        <SelectElement :select="searchValue" @filter_music="searchMusic"/>
         <div class="row gx-5 my-5 justify-content-center" v-if="!loading">
-            <div class="col-md-2 text-center card_music my-3" v-for="music in musics" :key="music.title">
+            <div class="col-md-2 text-center card_music my-3" v-for="music in filterMusics" :key="music.title">
                 <div class="content p-4">
                     <img :src="music.poster" :alt="music.author" class="img-fluid">
                     <h2 class="title mt-3">{{ music.title }}</h2>
@@ -11,7 +11,7 @@
             </div>
         </div>
         <div v-else>
-            <h2 class="loading">Caricamento...</h2>
+            <h2 class="loading text-center mt-5">Caricamento...</h2>
         </div>
     </div>
 </template>
@@ -28,7 +28,8 @@ export default {
         return {
             musics: [],
             loading: true,
-            API_URL: "https://flynn.boolean.careers/exercises/api/array/music"
+            API_URL: "https://flynn.boolean.careers/exercises/api/array/music",
+            searchValue: ""
         }
     },
     mounted() {
@@ -45,7 +46,18 @@ export default {
                 console.log(e, "ERROR!");
             })
         },
-
+        searchMusic(value) {
+            this.searchValue = value
+        }
+    },
+    computed: {
+        filterMusics() {
+            if (this.searchValue === "All") {
+                return this.musics
+            }
+            const filterMusic = this.musics.filter(music => music.genre.includes(this.searchValue))
+            return filterMusic
+        }
     }
 }
 </script>
