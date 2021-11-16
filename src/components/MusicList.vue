@@ -1,6 +1,6 @@
 <template>
     <div class="cards_music">
-        <SelectElement @filter_music=""/>
+        <SelectElement />
         <div class="row gx-5 my-5 justify-content-center" v-if="!loading">
             <div class="col-md-2 text-center card_music my-3" v-for="music in musics" :key="music.title">
                 <div class="content p-4">
@@ -39,14 +39,13 @@ export default {
             axios
                 .get(this.API_URL)
                 .then(r => {
-                    console.log(r);
                     this.musics = r.data.response
                     this.loading = false
             }).catch(e => {
                 console.log(e, "ERROR!");
             })
         },
-        
+
     }
 }
 </script>

@@ -1,17 +1,34 @@
 <template>
     <div class="select text-center">
-        <select name="genre" id="genre" @change="$emit('filter_music')">
-            <option value="Rock">Rock</option>
-            <option value="Pop">Pop</option>
-            <option value="Jazz">Jazz</option>
-            <option value="Metal">Metal</option>
+        <select name="genre" id="genre" @change="$emit('filter_music')" v-model="selectValue">
+            <option value="All">Seleziona Genere</option>
+            <option v-for="genre in genres" :key="genre.author">{{ genre }}</option>
         </select>
     </div>
 </template>
 
 <script>
-export default {
+import axios from 'axios'
 
+export default {
+    data() {
+        return {
+            genres: [],
+            selectValue: "All"
+        }
+    },
+    mounted() {
+        axios
+            .get("https://flynn.boolean.careers/exercises/api/array/music")
+            .then(r => {
+                this.genres = r.data.response
+                this.genres.forEach(genre) => {
+                    if () {
+                        
+                    }
+                }
+        })
+    }
 }
 </script>
 
